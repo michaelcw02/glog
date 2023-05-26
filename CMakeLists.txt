@@ -61,7 +61,6 @@ if (WITH_THREADS)
 endif (WITH_THREADS)
 
 check_include_file (dlfcn.h HAVE_DLFCN_H)
-check_include_file (execinfo.h HAVE_EXECINFO_H)
 check_include_file (glob.h HAVE_GLOB_H)
 check_include_file (inttypes.h HAVE_INTTYPES_H)
 check_include_file (libunwind.h HAVE_LIBUNWIND_H)
@@ -444,10 +443,6 @@ else (NOT BUILD_SHARED_LIBS)
     "GOOGLE_GLOG_DLL_DECL_FOR_UNITTESTS=${_IMPORT}")
 endif (NOT BUILD_SHARED_LIBS)
 
-if (HAVE_EXECINFO_H)
-  set (HAVE_STACKTRACE 1)
-endif (HAVE_EXECINFO_H)
-
 if (UNIX OR (APPLE AND HAVE_DLADDR))
   set (HAVE_SYMBOLIZE 1)
 endif (UNIX OR (APPLE AND HAVE_DLADDR))
@@ -504,14 +499,6 @@ add_executable (demangle_unittest
 )
 
 target_link_libraries (demangle_unittest PRIVATE glog)
-
-if (HAVE_STACKTRACE)
-  add_executable (stacktrace_unittest
-    src/stacktrace_unittest.cc
-  )
-
-  target_link_libraries (stacktrace_unittest PRIVATE glog)
-endif (HAVE_STACKTRACE)
 
 add_executable (utilities_unittest
   src/utilities_unittest.cc
